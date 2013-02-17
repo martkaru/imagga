@@ -1,6 +1,6 @@
 # Imagga
 
-TODO: Write a gem description
+Client for Imagga image analytics services API
 
 ## Installation
 
@@ -18,7 +18,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    client = Imagga::Client.new(
+      base_uri:   '0.0.0.0',                # IP of the Imagga server
+      api_key:    '12345678',               # Your api key
+      api_secret: '1234567890123456789'     # Your api secret
+    )
+    results = client.extract('http://imagga.com/images/scheme_colors.png')
+
 
 ## Contributing
 
