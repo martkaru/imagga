@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-Set up client
+Set up a client
 
     client = Imagga::Client.new(
       base_uri:   '0.0.0.0',                # IP of the Imagga server
