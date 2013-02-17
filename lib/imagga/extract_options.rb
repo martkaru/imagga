@@ -27,11 +27,11 @@ module Imagga
     end
 
     def build_urls(urls_or_images)
-      [urls_or_images].flatten.map{|o| o.url rescue o}.join(',')
+      [urls_or_images].flatten.map{ |o| o.url rescue o }.join(',')
     end
 
     def build_ids(urls_or_images)
-      ids = [urls_or_images].flatten.map{|o| o.id rescue 0}
+      ids = [urls_or_images].flatten.map{ |o| o.id rescue 0 }
       return if ids.uniq == [0]
       ids.join(',')
     end
