@@ -1,0 +1,5 @@
+require "imagga/version"
+require "imagga/exceptions"
+require "imagga/image"
+require "imagga/extract_options"
+require "imagga/client"
