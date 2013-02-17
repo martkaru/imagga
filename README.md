@@ -18,12 +18,28 @@ Or install it yourself as:
 
 ## Usage
 
+Set up client
+
     client = Imagga::Client.new(
       base_uri:   '0.0.0.0',                # IP of the Imagga server
       api_key:    '12345678',               # Your api key
       api_secret: '1234567890123456789'     # Your api secret
     )
+
+Extract image information
+
     results = client.extract('http://imagga.com/images/scheme_colors.png')
+
+Extract image information with indexing and extraction options:
+
+    results = client.extract(
+      [
+        Imagga::Image.new(url: 'http://image1', id: '333'),
+        Imagga::Image.new(url: 'http://image2')
+      ],
+      extract_overall_colors: true,
+      extract_object_colors: false
+    )
 
 
 ## Contributing
