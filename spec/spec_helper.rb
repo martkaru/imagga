@@ -1,4 +1,6 @@
 require 'rspec/autorun'
+require 'rubygems'
+require 'bundler'
 Bundler.require(:default, :development)
 
 # Requires supporting ruby files with custom matchers and macros, etc,
