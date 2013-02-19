@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/martkaru/imagga.png?branch=master)](https://travis-ci.org/martkaru/imagga)
+
 # Imagga
 
 Client for Imagga image analytics services API
