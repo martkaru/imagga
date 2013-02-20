@@ -9,7 +9,7 @@ module Imagga
 
     def options(urls_or_images, additional_options={})
       options = base_options.merge(
-        method: 'imagga.colorseach.extract',
+        method: 'imagga.colorsearch.extract',
         urls: build_urls(urls_or_images),
       )
 
