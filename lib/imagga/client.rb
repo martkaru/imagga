@@ -18,7 +18,6 @@ module Imagga
 
     def extract(urls_or_images, additional_options={})
       options = extract_options(urls_or_images, additional_options)
-      puts options
       result = JSON.parse(self.class.post(service_path, body: options))
       raise_if_request_failed!(result)
       result
