@@ -16,12 +16,8 @@ describe Imagga::Client do
     subject.base_uri.should == 'http://example.com'
   end
 
-  it "implements version 1" do
-    subject.version.should == '1.0'
-  end
-
-  it "knows extract service path" do
-    subject.extract_service_path.should == '/colorsearchserver.php'
+  it "knows service path" do
+    subject.service_path.should == '/colorsearchserver.php'
   end
 
   describe "#extract" do
@@ -49,6 +45,39 @@ describe Imagga::Client do
       it "populates exception object with details" do
         begin
           subject.extract('http://image')
+        rescue Imagga::ClientException => e
+          e.message.should == 'Invalid signature'
+          e.error_code.should == 3
+        end
+      end
+    end
+  end
+
+  describe "#rank" do
+    it "does a rank search" do
+      Imagga::Client.should_receive(:post).with(
+        '/colorsearchserver.php', body: { a: :b}
+      ) { '["result"]' }
+      subject.should_receive(:rank_options).with(c: :d) { { a: :b } }
+      subject.rank(c: :d).should == ['result']
+    end
+
+    context "with failing request" do
+      before :each do
+        Imagga::Client.should_receive(:post).with(
+          '/colorsearchserver.php',
+          body: { a: :b}
+        ) { '{"error_code":3,"error_message":"Invalid signature"}' }
+        subject.should_receive(:rank_options).with(c: :d) { { a: :b } }
+      end
+
+      it "raises exception" do
+        expect { subject.rank(c: :d) }.to raise_error(Imagga::ClientException)
+      end
+
+      it "populates exception object with details" do
+        begin
+          subject.rank(c: :d)
         rescue Imagga::ClientException => e
           e.message.should == 'Invalid signature'
           e.error_code.should == 3

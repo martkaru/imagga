@@ -1,14 +1,16 @@
 require 'spec_helper'
 
 describe Imagga::ExtractOptions do
-  subject { described_class.new({}, 123) }
+  subject { described_class.new('apikey', 'secret') }
 
   describe "#options" do
     it "builds simple options" do
       subject.options('http://image').should == {
         urls: 'http://image',
         method: 'imagga.colorsearch.extract',
-        sig: 'a6dd7aa9dda36ceae9152acaf9eb0182'
+        sig: '76e667179a6520da86e272a609bc7fab',
+        api_key: 'apikey',
+        v: '1.0'
       }
     end
 
@@ -22,7 +24,9 @@ describe Imagga::ExtractOptions do
         method: 'imagga.colorsearch.extract',
         extract_overall_colors: 1,
         extract_object_colors: 0,
-        sig: '73a91e2bb0c5ec8c144e0fd20606127f'
+        sig: 'd66a0e3409ed08878ce7efae2827de87',
+        api_key: 'apikey',
+        v: '1.0'
       }
     end
   end

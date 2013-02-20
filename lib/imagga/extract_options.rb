@@ -1,11 +1,26 @@
 module Imagga
-  class ExtractOptions
-    attr_accessor :base_options
+  class BaseOptions
+    attr_accessor :api_key, :api_secret
 
-    def initialize(base_options, api_secret)
-      @base_options = base_options
-      @api_secret = api_secret
+    def initialize(api_key, api_secret)
+      @version    = '1.0'
+      @api_key    = api_key    || raise_missing(:api_key)
+      @api_secret = api_secret || raise_missing(:api_secret)
     end
+
+    def base_options
+      { v: @version, api_key: @api_key }
+    end
+
+    def sign(options)
+      sorted_options_string = options.keys.sort.map do |key|
+        "%s=%s" % [key.to_s, options[key]]
+      end.join('') << @api_secret
+      Digest::MD5.hexdigest(sorted_options_string)
+    end
+  end
+
+  class ExtractOptions < BaseOptions
 
     def options(urls_or_images, additional_options={})
       options = base_options.merge(
@@ -36,12 +51,24 @@ module Imagga
       ids.join(',')
     end
 
-    def sign(options)
-      sorted_options_string = options.keys.sort.map do |key|
-        "%s=%s" % [key.to_s, options[key]]
-      end.join('') << @api_secret
-      Digest::MD5.hexdigest(sorted_options_string)
-    end
+  end
 
+  class RankOptions < BaseOptions
+    def options(opts)
+      color_vector = opts.fetch(:color_vector)
+      type         = opts.fetch(:type)
+      dist         = opts.fetch(:dist)
+      count        = opts.fetch(:count)
+
+      options = base_options.merge(
+        method:       'imagga.colorsearch.rank',
+        color_vector: color_vector,
+        type:         type,
+        dist:         dist,
+        count:        count
+      )
+
+      options.merge!(sig: sign(options))
+    end
   end
 end
