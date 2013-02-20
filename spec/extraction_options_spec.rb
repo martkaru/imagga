@@ -7,7 +7,7 @@ describe Imagga::ExtractOptions do
     it "builds simple options" do
       subject.options('http://image').should == {
         urls: 'http://image',
-        method: 'imagga.colorseach.extract',
+        method: 'imagga.colorsearch.extract',
         sig: 'a6dd7aa9dda36ceae9152acaf9eb0182'
       }
     end
@@ -19,7 +19,7 @@ describe Imagga::ExtractOptions do
       ], extract_overall_colors: true, extract_object_colors: false).should == {
         urls: 'http://image1,http://image2',
         ids: '333,0',
-        method: 'imagga.colorseach.extract',
+        method: 'imagga.colorsearch.extract',
         extract_overall_colors: 1,
         extract_object_colors: 0,
         sig: '73a91e2bb0c5ec8c144e0fd20606127f'
