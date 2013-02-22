@@ -1,5 +1,7 @@
 require "imagga/version"
 require "imagga/exceptions"
+require "imagga/extract_result_builder"
+require "imagga/rank_result_builder"
 require "imagga/image"
 require "imagga/extract_options"
 require "imagga/client"

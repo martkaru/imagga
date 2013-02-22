@@ -20,13 +20,13 @@ module Imagga
       options = extract_options(urls_or_images, additional_options)
       result = JSON.parse(self.class.post(service_path, body: options))
       raise_if_request_failed!(result)
-      result
+      ExtractResultBuilder.new.build_from(result)
     end
 
     def rank(opts)
       result = JSON.parse(self.class.post(service_path, body: rank_options(opts)))
       raise_if_request_failed!(result)
-      result
+      RankResultBuilder.new.build_from(result)
     end
 
     private

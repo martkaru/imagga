@@ -1,16 +1,15 @@
 require 'spec_helper'
-require 'imagga/image'
 
 describe Imagga::Image do
   subject { described_class.new(url: 'http://', id: '1234') }
- 
+
   it "has id" do
     subject.id.should == '1234'
-  end 
+  end
 
   it "has url" do
     subject.url.should == 'http://'
-  end 
+  end
 
   context "without url" do
     it "throws ArgumentError" do
