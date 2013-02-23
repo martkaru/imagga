@@ -11,8 +11,15 @@ describe Imagga::ImageColor do
     "closest_palette_distance" => 2.03931376316
   } }
 
+  subject { described_class.new(init_hash) }
+
+  describe "#info" do
+    it "shows overview of the color" do
+      subject.info.should == '19.29%, rgb: (174,180,187), hex: #aeb4bb'
+    end
+  end
+
   describe "initialized by hash" do
-    subject { described_class.new(init_hash) }
 
     it "has percent" do
       subject.percent.should == 19.29

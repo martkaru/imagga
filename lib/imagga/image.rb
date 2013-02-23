@@ -59,6 +59,9 @@ module Imagga
       @percent = value.to_f
     end
 
+    def info
+      "%.2f\%%, rgb: (%i,%i,%i), hex: %s" % [percent, r, g, b, html_code]
+    end
   end
 
   class RankSimilarity < ImageInfoBase
