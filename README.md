@@ -32,6 +32,7 @@ Extract image information
 
     results = client.extract('http://imagga.com/images/scheme_colors.png')
 
+
 Extract image information with indexing and extraction options:
 
     results = client.extract(
@@ -43,6 +44,25 @@ Extract image information with indexing and extraction options:
       extract_object_colors: false
     )
 
+Check the results, for example:
+
+    results.each do |info|                   # iterate over all input image infos
+      puts info.object_percentage            # percentage of the central object on image
+      info.image_colors.each do |color|      # iterate over all significant colors
+        puts color.info                      # 85.89%, rgb: (246,246,246), hex: #f6f6f6 
+      end
+    end
+
+Multi-color search:
+
+    client.rank(
+      color_vector: '20,82,37,43,30,20,30,10',  # vector of colors (percentage, r, g, b)
+      type: 'object',
+      dist: 6000,
+      count: 10
+    ).each do |similarity|
+      puts "Distance of #%i is %.4f" % [similarity.id, similarity.dist]  # Distance of #333 is 3581.5500
+    end
 
 ## Contributing
 
