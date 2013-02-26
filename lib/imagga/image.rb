@@ -82,7 +82,7 @@ module Imagga
     end
 
     def initialize(opts={})
-      #super(opts['croppings'].merge('url' => opts['url']))
+      super({'url' => opts['url']})
       self.class.crop_fields.each do |field|
         send("#{field}=", build_image_crops(opts[field]))
       end
