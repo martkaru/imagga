@@ -30,6 +30,13 @@ module Imagga
       RankResultBuilder.new.build_from(result)
     end
 
+    def crop(urls_or_images, additional_options={})
+      options = crop_options(urls_or_images, additional_options)
+      result = JSON.parse(self.class.post(crop_service_path, body: options))
+      raise_if_request_failed!(result)
+      CropResultBuilder.new.build_from(result)
+    end
+
     private
 
     def extract_options(urls_or_images, additional_options)
@@ -38,6 +45,10 @@ module Imagga
 
     def rank_options(opts)
       RankOptions.new(api_key, api_secret).options(opts)
+    end
+
+    def crop_options(urls_or_images, additional_options)
+      CropOptions.new(api_key, api_secret).options(urls_or_images, additional_options)
     end
   end
 end
