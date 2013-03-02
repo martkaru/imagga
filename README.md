@@ -1,3 +1,4 @@
+[![Code Climate](https://codeclimate.com/github/martkaru/imagga.png)](https://codeclimate.com/github/martkaru/imagga)
 [![Build Status](https://travis-ci.org/martkaru/imagga.png?branch=master)](https://travis-ci.org/martkaru/imagga)
 
 # Imagga
