@@ -71,4 +71,46 @@ module Imagga
 
     attr_accessor *fields
   end
+
+  class CropInfo < ImageInfoBase
+    def self.fields
+      %w(url)
+    end
+
+    def self.crop_fields
+      %w(croppings)
+    end
+
+    def initialize(opts={})
+      super({'url' => opts['url']})
+      self.class.crop_fields.each do |field|
+        send("#{field}=", build_image_crops(opts[field]))
+      end
+    end
+
+    def build_image_crops(image_crop_nodes)
+      image_crop_nodes && image_crop_nodes.map { |crop_node| ImageCrop.new(crop_node) }
+    end
+
+    attr_accessor *(fields + crop_fields)
+  end
+
+  class ImageCrop < ImageInfoBase
+    def self.fields
+      %w(target_width target_height x1 y1 x2 y2)
+    end
+
+    attr_accessor *fields
+
+    %w(target_width target_height x1 y1 x2 y2).each do |field|
+      define_method("#{field}=") do |value|
+        instance_variable_set("@#{field}", value.to_i)
+      end
+    end
+
+    def info
+      "target: (%i,%i), crop: (%i, %i) to (%i, %i)" % [target_width, target_height, x1, y1, x2, y2]
+    end
+  end
+
 end

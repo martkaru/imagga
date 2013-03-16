@@ -71,4 +71,34 @@ module Imagga
       options.merge!(sig: sign(options))
     end
   end
+
+  class CropOptions < BaseOptions
+
+    def options(urls_or_images, additional_options={})
+      options = base_options.merge(
+        method: 'imagga.process.crop',
+        urls: build_urls(urls_or_images),
+      )
+
+      [:no_scaling].each do |key|
+        if additional_options.keys.include?(key) && (value = additional_options[key] ? 1 : 0)
+          options.merge!(key => value)
+        end
+      end
+
+      [:resolutions].each do |key|
+        if additional_options.keys.include?(key) && (value = additional_options[key])
+          options.merge!(key => value)
+        end
+      end
+
+      options.merge!(sig: sign(options))
+    end
+
+    def build_urls(urls_or_images)
+      [urls_or_images].flatten.map{ |o| o.url rescue o }.join(',')
+    end
+
+  end
+
 end
