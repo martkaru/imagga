@@ -1,12 +1,18 @@
 module Imagga
   class Image
     include Imagga::Exceptions
-    attr_accessor :url, :id
+    attr_accessor :url, :id, :resolution
 
     def initialize(opts)
-      @url = opts[:url] || raise_missing(:url)
-      @id  = opts[:id]  || 0
+      @url             = opts[:url] || raise_missing(:url)
+      @id              = opts[:id]  || 0
+      self.resolution  = opts[:resolution] # 123x23 or 123,23
     end
+
+    def resolution=(res)
+      @resolution = res.gsub('x', ',') rescue nil
+    end
+
   end
 
   class ImageInfoBase
@@ -16,6 +22,7 @@ module Imagga
   end
 
   class ImageInfo < ImageInfoBase
+
     def self.fields
       %w(url object_percentage color_variance image_packed foreground_packed background_packed)
     end
@@ -40,9 +47,11 @@ module Imagga
     def color_variance=(value)
       @color_variance = value.to_i
     end
+
   end
 
   class ImageColor < ImageInfoBase
+
     def self.fields
       %w(percent r g b html_code closest_palette_color closest_palette_color_parent closest_palette_distance)
     end
@@ -62,6 +71,7 @@ module Imagga
     def info
       "%.2f\%%, rgb: (%i,%i,%i), hex: %s" % [percent, r, g, b, html_code]
     end
+
   end
 
   class RankSimilarity < ImageInfoBase
@@ -111,6 +121,7 @@ module Imagga
     def info
       "target: (%i,%i), crop: (%i, %i) to (%i, %i)" % [target_width, target_height, x1, y1, x2, y2]
     end
+
   end
 
 end

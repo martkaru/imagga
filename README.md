@@ -65,6 +65,12 @@ Multi-color search:
       puts "Distance of #%i is %.4f" % [similarity.id, similarity.dist]  # Distance of #333 is 3581.5500
     end
 
+## Contributors
+
+martkaru
+jprosevear
+
+
 ## Contributing
 
 1. Fork it
