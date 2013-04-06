@@ -5,16 +5,6 @@ describe Imagga::Client do
   subject { described_class.new(api_key: '1', api_secret: '2', base_uri: 'http://example.com') }
 
   let(:rank_response) { '{
-    "rank_similarity":[
-      {
-        "id":8774077,
-        "dist":2597.38299
-      },
-      {
-        "id":9085916,
-        "dist":2681.33259
-      }
-    ]
   }'}
 
   let(:failed_signature_response) { '{"error_code":3,"error_message":"Invalid signature"}' }

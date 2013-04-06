@@ -20,7 +20,6 @@ module Imagga
     def crop(options={})
       CropCommand.new(api_key, api_secret, base_uri).execute(options)
     end
-
   end
 end
 

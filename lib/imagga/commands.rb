@@ -3,7 +3,6 @@ require "json"
 
 module Imagga
   class BaseCommand
-
     include HTTParty
     include Imagga::Exceptions
 
@@ -19,7 +18,6 @@ module Imagga
         raise_if_request_failed!(result)
       end
     end
-
   end
 
   class ExtractCommand < BaseCommand
@@ -35,5 +33,4 @@ module Imagga
     def service_path; '/extractionrestserver.php'; end
     def args(options); CropOptions.new(api_key, api_secret).options(options); end
   end
-
 end

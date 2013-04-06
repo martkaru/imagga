@@ -1,3 +1,5 @@
+require 'color'
+
 module Imagga
   class Image
     include Imagga::Exceptions
@@ -12,7 +14,6 @@ module Imagga
     def resolution=(res)
       @resolution = res.gsub('x', ',') rescue nil
     end
-
   end
 
   class ImageInfoBase
@@ -22,7 +23,6 @@ module Imagga
   end
 
   class ImageInfo < ImageInfoBase
-
     def self.fields
       %w(url object_percentage color_variance image_packed foreground_packed background_packed)
     end
@@ -47,11 +47,9 @@ module Imagga
     def color_variance=(value)
       @color_variance = value.to_i
     end
-
   end
 
   class ImageColor < ImageInfoBase
-
     def self.fields
       %w(percent r g b html_code closest_palette_color closest_palette_color_parent closest_palette_distance)
     end
@@ -71,7 +69,20 @@ module Imagga
     def info
       "%.2f\%%, rgb: (%i,%i,%i), hex: %s" % [percent, r, g, b, html_code]
     end
+  end
 
+  class RankColor
+    attr_accessor :percent, :r, :g, :b, :hex
+    def initialize(opts)
+      @percent = opts.fetch(:percent)
+      if @hex = opts[:hex]
+        color = Color::RGB.from_html(@hex)
+        @r, @g, @b = color.red, color.green, color.blue
+      else
+        @r, @g, @b = opts[:r], opts[:g], opts[:b]
+        @hex = Color::RGB.new(r, g, b).html
+      end
+    end
   end
 
   class RankSimilarity < ImageInfoBase
@@ -121,7 +132,5 @@ module Imagga
     def info
       "target: (%i,%i), crop: (%i, %i) to (%i, %i)" % [target_width, target_height, x1, y1, x2, y2]
     end
-
   end
-
 end

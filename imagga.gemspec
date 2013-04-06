@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "httparty", "~> 0.10"
   gem.add_dependency "json", "~> 1.7"
+  gem.add_dependency "color", "~> 1.4.1"
 
   gem.add_development_dependency "rspec", "~> 2.12"
   gem.add_development_dependency "rake"

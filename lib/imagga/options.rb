@@ -22,10 +22,10 @@ module Imagga
   end
 
   class ExtractOptions < BaseOptions
-    def options(options={})
-      options.merge!(base_options).merge!(method: method)
-      options.merge!(build_boolean_options(options, boolean_fields))
-      options.merge!(sig: sign(options))
+    def options(opts={})
+      opts.merge!(base_options).merge!(method: method)
+      opts.merge!(build_boolean_options(opts, boolean_fields))
+      opts.merge!(sig: sign(opts))
     end
 
     def method
@@ -38,15 +38,17 @@ module Imagga
   end
 
   class RankOptions < BaseOptions
-    def options(opts)
-      options = base_options.merge(
+    include Imagga::Exceptions
+
+    def options(opts={})
+      opts.merge!(base_options).merge!(
         method:       method,
-        color_vector: opts.fetch(:color_vector),
-        type:         opts.fetch(:type),
-        dist:         opts.fetch(:dist),
-        count:        opts.fetch(:count)
+        color_vector: opts.delete(:color_vector),
+        type:         opts.delete(:type) { raise_missing('type') },
+        dist:         opts.delete(:dist) { raise_missing('dist') },
+        count:        opts.delete(:count){ raise_missing('count') }
       )
-      options.merge!(sig: sign(options))
+      opts.merge!(sig: sign(opts))
     end
 
     def method
@@ -55,7 +57,6 @@ module Imagga
   end
 
   class CropOptions < BaseOptions
-
     def options(urls_or_images, additional_options={})
       options = base_options.merge(
         method: method,
@@ -73,5 +74,4 @@ module Imagga
       'imagga.process.crop'
     end
   end
-
 end

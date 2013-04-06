@@ -1,18 +1,7 @@
 require 'spec_helper'
 
 describe Imagga::RankResultBuilder do
-  let(:result) { {
-    'rank_similarity' =>  [
-      {
-        "id" => 8774077,
-        "dist" => 2597.38299
-      },
-      {
-        "id" => 9085916,
-        "dist" => 2681.33259
-      }
-    ]
-  } }
+  let(:result) { JSON.parse(IO.read('./spec/fixtures/rank_response.txt')) }
 
   subject { described_class.new }
 
