@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Imagga::RankColor do
-
-
   context "when initialized through rgb values" do
     subject { described_class.new(percent: 40, r: 200, g: 100, b: 50) } 
 
