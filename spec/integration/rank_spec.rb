@@ -4,9 +4,8 @@ require 'fake_web'
 describe "Multicolor search" do
 
   let(:base_uri)         { 'http://example.com' }
-  let(:image_url)        { 'http://image' }
   let(:fake_service_url) { 'http://example.com/colorsearchserver.php' }
-  let(:rank_response) { IO.read('./spec/fixtures/rank_response.txt') }
+  let(:rank_response)    { IO.read('./spec/fixtures/rank_response.txt') }
   let(:failed_signature_response) { '{"error_code":3,"error_message":"Invalid signature"}' }
 
   subject { Imagga::Client.new(api_key: '123456', api_secret: 'secret', base_uri: base_uri) }
@@ -16,7 +15,7 @@ describe "Multicolor search" do
       FakeWeb.register_uri(:post, fake_service_url, body: rank_response)
     end
 
-    it "extracts image info" do
+    it "searches images by color" do
       subject.rank(
         colors: [
           Imagga::RankColor.new(percent: 60, r: 10, g: 20, b: 30),
@@ -50,8 +49,8 @@ describe "Multicolor search" do
             Imagga::RankColor.new(percent: 20, hex: '#ff00ff'),
             '39,12,34,123'
           ],
-          dist: 3000,
-          count: 10
+            dist: 3000,
+            count: 10
         ) }.to raise_error(ArgumentError, 'type is missing')
     end
   end
@@ -62,13 +61,31 @@ describe "Multicolor search" do
     end
 
     it "raises exception" do
-      expect { subject.extract(image_url) }.to raise_error(Imagga::ClientException)
+      expect { subject.rank(
+        colors: [
+          Imagga::RankColor.new(percent: 60, r: 10, g: 20, b: 30),
+          Imagga::RankColor.new(percent: 20, hex: '#ff00ff'),
+          '39,12,34,123'
+        ],
+          type: :overall,
+          dist: 3000,
+          count: 10
+      ) }.to raise_error(Imagga::ClientException)
     end
 
     context "exception" do
       before do
         begin
-          subject.extract(image_url)
+          subject.rank(
+            colors: [
+              Imagga::RankColor.new(percent: 60, r: 10, g: 20, b: 30),
+              Imagga::RankColor.new(percent: 20, hex: '#ff00ff'),
+              '39,12,34,123'
+            ],
+              type: :overall,
+              dist: 3000,
+              count: 10
+          )
         rescue Imagga::ClientException => e
           @exception = e
         end

@@ -19,6 +19,10 @@ module Imagga
       end.join('') << api_secret
       Digest::MD5.hexdigest(sorted_options_string)
     end
+
+    def options(opts={})
+      {}
+    end
   end
 
   class ExtractOptions < BaseOptions
@@ -44,9 +48,9 @@ module Imagga
       opts.merge!(base_options).merge!(
         method:       method,
         color_vector: opts.delete(:color_vector),
-        type:         opts.delete(:type)  { raise_missing('type') },
-        dist:         opts.delete(:dist)  { raise_missing('dist') },
-        count:        opts.delete(:count) { raise_missing('count') }
+        type:         (opts.delete(:type)  { raise_missing('type') }).to_s,
+        dist:         (opts.delete(:dist)  { raise_missing('dist') }).to_s,
+        count:        (opts.delete(:count) { raise_missing('count') }).to_s
       )
       opts.merge!(sig: sign(opts))
     end
@@ -57,16 +61,9 @@ module Imagga
   end
 
   class CropOptions < BaseOptions
-    def options(urls_or_images, additional_options={})
-      options = base_options.merge(
-        method: method,
-        urls: build_urls(urls_or_images),
-      )
-
-      if resolutions = build_comma_separated_string(urls_or_images, :resolution, ',')
-        options.merge!(resolutions: resolutions)
-      end
-      options.merge!(build_boolean_options(additional_options, :no_scaling))
+    def options(opts={})
+      options = base_options.merge(opts).merge(method: method)
+      options.merge!(build_boolean_options(opts, :no_scaling))
       options.merge!(sig: sign(options))
     end
 

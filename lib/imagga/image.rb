@@ -3,16 +3,11 @@ require 'color'
 module Imagga
   class Image
     include Imagga::Exceptions
-    attr_accessor :url, :id, :resolution
+    attr_accessor :url, :id
 
     def initialize(opts)
       @url             = opts[:url] || raise_missing(:url)
       @id              = opts[:id]  || 0
-      self.resolution  = opts[:resolution] # 123x23 or 123,23
-    end
-
-    def resolution=(res)
-      @resolution = res.gsub('x', ',') rescue nil
     end
   end
 

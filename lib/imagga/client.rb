@@ -11,7 +11,9 @@ module Imagga
       RankResultBuilder.new.build_from(super(options))
     end
 
-    def crop(urls_or_images, additional_options={})
+    def crop(urls_or_images, options={})
+      options.merge!(ImageOrUrlParametizer.new.build_urls(urls_or_images))
+      options.merge!(ResolutionParametizer.new.parametrize(options.fetch(:resolutions)))
       CropResultBuilder.new.build_from(super(options))
     end
   end

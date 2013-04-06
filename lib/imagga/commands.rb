@@ -18,19 +18,25 @@ module Imagga
         raise_if_request_failed!(result)
       end
     end
+
+    def args(options)
+      options_class.new(api_key, api_secret).options(options)
+    end
+
+    def options_class; BaseOptions; end
   end
 
   class ExtractCommand < BaseCommand
     def service_path; '/colorsearchserver.php'; end
-    def args(options); ExtractOptions.new(api_key, api_secret).options(options); end
+    def options_class; ExtractOptions; end
   end
 
   class RankCommand < ExtractCommand
-    def args(options); RankOptions.new(api_key, api_secret).options(options); end
+    def options_class; RankOptions; end
   end
 
   class CropCommand < BaseCommand
     def service_path; '/extractionrestserver.php'; end
-    def args(options); CropOptions.new(api_key, api_secret).options(options); end
+    def options_class; CropOptions; end
   end
 end

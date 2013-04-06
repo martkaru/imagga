@@ -40,14 +40,8 @@ describe Imagga::ExtractCommand do
     subject.service_path.should == '/colorsearchserver.php'
   end
 
-  it "produces service arguments" do
-    subject.args(urls: 'http://image').should == {
-      api_key: "123456",
-      method: "imagga.colorsearch.extract",
-      sig: "d53bcdf68257613e6a7a224fa4457616",
-      urls: "http://image",
-      v: "1.0"
-    }
+  it "has options class defined" do
+    subject.options_class.should == Imagga::ExtractOptions
   end
 end
 
@@ -58,47 +52,19 @@ describe Imagga::RankCommand do
     subject.service_path.should == '/colorsearchserver.php'
   end
 
-  it "produces service arguments" do
-    subject.args(
-      color_vector: '60,255,0,0,40,0,255,0',
-      type: 'overall',
-      dist: 3000,
-      count: 100
-    ).should == {
-      color_vector: "60,255,0,0,40,0,255,0",
-      type: "overall",
-      count: 100,
-      dist: 3000,
-      api_key: "123456",
-      method: "imagga.colorsearch.rank",
-      sig: "8e953591efe7d3210cecf8045accaea5",
-      v: "1.0"
-    }
+  it "has options class defined" do
+    subject.options_class.should == Imagga::RankOptions
   end
 end
 
-#describe Imagga::CropCommand do
-  #subject { described_class.new('123456', 'secret','http://example.com') }
+describe Imagga::CropCommand do
+  subject { described_class.new('123456', 'secret','http://example.com') }
 
-  #it "has service_path" do
-    #subject.service_path.should == '/extractionrestserver.php'
-  #end
+  it "has service_path" do
+    subject.service_path.should == '/extractionrestserver.php'
+  end
 
-  #it "produces service arguments" do
-    #subject.args(
-      #color_vector: '60,255,0,0,40,0,255,0',
-      #type: 'overall',
-      #dist: 3000,
-      #count: 100
-    #).should == {
-      #color_vector: "60,255,0,0,40,0,255,0",
-      #type: "overall",
-      #count: 100,
-      #dist: 3000,
-      #api_key: "123456",
-      #method: "imagga.colorsearch.rank",
-      #sig: "8e953591efe7d3210cecf8045accaea5",
-      #v: "1.0"
-    #}
-  #end
-#end
+  it "has options class defined" do
+    subject.options_class.should == Imagga::CropOptions
+  end
+end
