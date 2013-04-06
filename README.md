@@ -57,7 +57,10 @@ Check the results, for example:
 Multi-color search:
 
     client.rank(
-      color_vector: '20,82,37,43,30,20,30,10',  # vector of colors (percentage, r, g, b)
+      colors: [
+        Imagga::RankColor.new(percent: 100, r: 82, g: 37, b: 43)   # use r g b values
+        Imagga::RankColor.new(percent: 100, hex: '#336699')        # or use hex
+      ],
       type: 'object',
       dist: 6000,
       count: 10
@@ -65,9 +68,26 @@ Multi-color search:
       puts "Distance of #%i is %.4f" % [similarity.id, similarity.dist]  # Distance of #333 is 3581.5500
     end
 
+Image crop suggestions:
+
+    client.crop(
+      [
+        'http://image1',                        # Use urls
+        Imagga::Image.new(url: 'http://image2') # or image object
+      ],
+      resolutions: ['100x40','50x100'],         # '100,40,50,100' or '100x40,50x100' instead of array would work also
+      no_scaling: true
+    ).each do |crop_info|
+      puts crop_info.url
+      crop_info.croppings.each do |cropping|
+        puts cropping.info
+      end
+    end
+
 ## Contributors
 
 martkaru
+
 jprosevear
 
 
