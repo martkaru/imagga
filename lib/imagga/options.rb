@@ -44,9 +44,9 @@ module Imagga
       opts.merge!(base_options).merge!(
         method:       method,
         color_vector: opts.delete(:color_vector),
-        type:         opts.delete(:type) { raise_missing('type') },
-        dist:         opts.delete(:dist) { raise_missing('dist') },
-        count:        opts.delete(:count){ raise_missing('count') }
+        type:         opts.delete(:type)  { raise_missing('type') },
+        dist:         opts.delete(:dist)  { raise_missing('dist') },
+        count:        opts.delete(:count) { raise_missing('count') }
       )
       opts.merge!(sig: sign(opts))
     end
